@@ -3,8 +3,8 @@ import System from "./components/system";
 
 const App = () => {
   return (
-    <div className="App">
-      <h1>BMI Calculator</h1>
+    <div className="ui raised very padded text container segment">
+      <h1 className="ui header">BMI Calculator</h1>
       <System />
     </div>
   );
