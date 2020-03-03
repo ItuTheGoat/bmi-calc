@@ -14,18 +14,21 @@ class System extends Component {
   render() {
     return (
       <div>
-        <button
-          className="ui button"
-          onClick={() => this.onSystemChange("metric")}
-        >
-          Metric
-        </button>
-        <button
-          className="ui button"
-          onClick={() => this.onSystemChange("imperial")}
-        >
-          Imperial
-        </button>
+        <div>
+          <button
+            className="ui button"
+            onClick={() => this.onSystemChange("metric")}
+          >
+            Metric
+          </button>
+          <button
+            className="ui button"
+            onClick={() => this.onSystemChange("imperial")}
+          >
+            Imperial
+          </button>
+        </div>
+        <br />
         <SystemContext.Provider value={this.state.system}>
           <Form />
         </SystemContext.Provider>
