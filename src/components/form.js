@@ -4,7 +4,9 @@ import SystemContext from "./SystemContext";
 class Form extends React.Component {
   state = {
     height: 0,
-    weight: 0
+    weight: 0,
+    currentSystem: this.context,
+    bmi: ""
   };
 
   // Create a static context type to get the data
@@ -19,11 +21,24 @@ class Form extends React.Component {
     this.setState({ weight: e.target.value });
   };
 
-  handleSubmit = e => {
+  handleClick = e => {
     e.preventDefault();
+    let currentHeight = this.state.height;
+    let currentWeight = this.state.weight;
+    let currentSystem = this.state.currentSystem;
+    let bmi = 0;
 
-    console.log(this.state.height);
-    console.log(this.state.weight);
+    if (!isNaN(currentHeight) && !isNaN(currentWeight)) {
+      if (currentHeight > 0 && currentWeight > 0) {
+        if (currentSystem === "metric") {
+          bmi = currentWeight / currentHeight ** 2;
+          this.setState({ bmi: bmi });
+        } else {
+          bmi = (703 * currentWeight) / currentHeight ** 2;
+          this.setState({ bmi: bmi });
+        }
+      }
+    }
   };
 
   render() {
@@ -34,7 +49,7 @@ class Form extends React.Component {
 
     if (system === "metric") {
       hPlaceholder = "Enter height (in meters: 1.77)";
-      wPlaceholder = "Enter height (in kilogram: 73)";
+      wPlaceholder = "Enter weight (in kilogram: 73)";
     } else {
       hPlaceholder = "Enter height (in inches e.g. 69)";
       wPlaceholder = "Enter weight (in pounds e.g. 200)";
@@ -42,7 +57,7 @@ class Form extends React.Component {
 
     return (
       <div>
-        <form className="ui form" onSubmit={this.handleSubmit}>
+        <form className="ui form">
           <h3 className="ui dividing header">Calculate your Body Mass Index</h3>
           <label htmlFor="height">Height</label>
           <input
@@ -58,9 +73,12 @@ class Form extends React.Component {
             placeholder={wPlaceholder}
             onChange={this.changeWeight}
           />
-          <button className="ui button primary" type="submit">
+          <br />
+          <button className="ui button primary" onClick={this.handleClick}>
             Submit
           </button>
+
+          <h4>Your bmi is: {this.state.bmi} kg/m squared</h4>
         </form>
       </div>
     );
