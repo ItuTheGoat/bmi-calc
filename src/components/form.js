@@ -1,6 +1,5 @@
 import React from "react";
 import SystemContext from "./SystemContext";
-import Field from "./field";
 
 class Form extends React.Component {
   state = {
@@ -45,13 +44,15 @@ class Form extends React.Component {
       <div>
         <form className="ui form" onSubmit={this.handleSubmit}>
           <h3 className="ui dividing header">Calculate your Body Mass Index</h3>
-          <Field
+          <label htmlFor="height">Height</label>
+          <input
             label="Enter Height"
             name="height"
             placeholder={hPlaceholder}
             onChange={this.changeHeight}
           />
-          <Field
+          <label htmlFor="weight">Weight</label>
+          <input
             label="Enter weight"
             name="weight"
             placeholder={wPlaceholder}
