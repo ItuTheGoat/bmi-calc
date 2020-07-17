@@ -1,10 +1,12 @@
 import React from "react";
 import System from "./components/system";
+// Bootstrap
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
   return (
-    <div className="ui raised very padded text container segment">
-      <h1 className="ui header">BMI Calculator</h1>
+    <div className="container">
+      <h1>BMI Calculator</h1>
       <System />
     </div>
   );
