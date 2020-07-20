@@ -4,15 +4,11 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 class FormComp extends React.Component {
-  state = {
-    height: 0,
-    weight: 0,
-    currentSystem: this.context,
-    bmi: "",
-  };
-
   // Create a static context type to get the data
   static contextType = SystemContext;
+
+  initialState = { height: "", weight: 0, bmi: "" };
+  state = this.initialState;
 
   changeHeight = (e) => {
     this.setState({ height: e.target.value });
@@ -22,6 +18,7 @@ class FormComp extends React.Component {
     this.setState({ weight: e.target.value });
   };
 
+  // This function will format the display of the BMI information
   displayBMI = (bmi) => {
     let bmiRounded = Math.round(bmi * 10) / 10;
     let bmiFixed = parseFloat(bmiRounded.toFixed(1));
@@ -46,30 +43,29 @@ class FormComp extends React.Component {
         bmi: "Your BMI is: " + bmiFixed + ", This means you are obese!!!",
       });
     }
-
-    console.log(this.state.bmi);
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
     let currentHeight = this.state.height;
     let currentWeight = this.state.weight;
-    let currentSystem = this.state.currentSystem;
     let bmi = 0;
 
     if (!isNaN(currentHeight) && !isNaN(currentWeight)) {
       if (currentHeight > 0 && currentWeight > 0) {
-        if (currentSystem === "metric") {
+        if (this.context === "metric") {
           bmi = currentWeight / currentHeight ** 2;
-        } else {
+        } else if (this.context === "imperial") {
           bmi = (703 * currentWeight) / currentHeight ** 2;
         }
 
         this.displayBMI(bmi);
       }
     }
+  };
 
-    this.setState({ height: 0, weight: 0 });
+  handleReset = () => {
+    this.setState(() => this.initialState);
   };
 
   render() {
@@ -89,7 +85,7 @@ class FormComp extends React.Component {
     return (
       <div>
         <h3>Calculate your Body Mass Index</h3>
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit} onReset={this.handleReset}>
           <Form.Group>
             <Form.Label>Height</Form.Label>
             <Form.Control
@@ -110,8 +106,8 @@ class FormComp extends React.Component {
           </Form.Group>
           <Button className="btn btn-primary" type="Submit">
             Submit
-          </Button>
-          <Button className="btn btn-secondary" onClick={this.clearAll}>
+          </Button>{" "}
+          <Button className="btn btn-secondary" type="Reset">
             Clear
           </Button>
         </Form>
